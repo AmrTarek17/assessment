@@ -1,0 +1,41 @@
+{
+  "provider": {
+    "helm": {
+      "kubernetes": {
+        "config_path": "~/.kube/config"
+      }
+    }
+  },
+  "resource": {
+    "helm_release": {
+      "rabbitmqop": {
+        "name": "rabbitmqop",
+        "namespace": "rabbitmq",
+        "repository": "https://charts.bitnami.com/bitnami",
+        "chart": "rabbitmq",
+        "version": "14.6.6",
+        "timeout": 600,
+        "atomic": true,
+        "create_namespace": true,
+        "values": [
+          "auth:\n  username: user\n  password: user\n  erlangCookie: c2VjcmV0Y29va2ll \nmetrics.enabled: true"
+        ],
+        "depends_on": []
+      },
+      "kedaop": {
+        "name": "kedaop",
+        "namespace": "keda",
+        "repository": "https://kedacore.github.io/charts",
+        "chart": "keda",
+        "version": "2.11.0",
+        "timeout": 600,
+        "atomic": true,
+        "create_namespace": true,
+        "values": [
+          ""
+        ],
+        "depends_on": []
+      }
+    }
+  }
+}

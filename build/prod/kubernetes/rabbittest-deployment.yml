@@ -1,0 +1,42 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: rabbittest
+  labels:
+    app: rabbittest
+  annotations: {}
+spec:
+  selector:
+    matchLabels:
+      app: rabbittest
+  template:
+    metadata:
+      labels:
+        app: rabbittest
+      annotations: {}
+    spec:
+      containers:
+        - name: default
+          image: pivotalrabbitmq/perf-test
+          command: []
+          args:
+            - --uri
+            - $(RABBIT_MQ_URI)
+            - -u
+            - queue
+            - -r
+            - "50"
+          env:
+            - name: RABBIT_MQ_URI
+              value: amqp://user:user@rabbitmqop.rabbitmq.svc.cluster.local:5672
+          resources:
+            requests:
+              cpu: "2"
+              memory: 2Gi
+      restartPolicy: Always
+      serviceAccountName: rabbittest
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+
